@@ -7,7 +7,8 @@ import TransactionTable from "./components/TransactionTable";
 
 function App() {
   const [transactions, setTransactions] = useState([]);
-  const [searchTerm, setSearchTerm] = useState();
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch(`http://localhost:3000/transactions?description_like=${searchTerm}`)
@@ -21,17 +22,14 @@ function App() {
   };
 
   const handleFilter = (searchTerm) => {
+    // console.log(searchTerm);
+    let filtered = transactions.filter((t) =>
+      t.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    //console.log("found", filtered);
+    setFilteredTransactions(filtered);
     setSearchTerm(searchTerm);
   };
-
-  const filteredTransactions = transactions.filter((transaction) => {
-    const description = transaction.description.toLowerCase();
-    const category = transaction.category.toLowerCase();
-    return (
-      description.includes(searchTerm.toLowerCase()) ||
-      category.includes(searchTerm.toLowerCase())
-    );
-  });
 
   return (
     <div>
