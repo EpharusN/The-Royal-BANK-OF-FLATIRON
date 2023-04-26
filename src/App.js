@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./components/Form";
@@ -7,20 +7,31 @@ import TransactionTable from "./components/TransactionTable";
 
 function App() {
   const [transactions, setTransactions] = useState([]);
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState();
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/transactions?description_like=${searchTerm}`)
+      .then((res) => res.json())
+      .then((data) => setTransactions(data))
+      .catch((error) => console.log(error));
+  }, [searchTerm]);
 
   const handleAddTransaction = (transaction) => {
     setTransactions([...transactions, transaction]);
   };
 
   const handleFilter = (searchTerm) => {
-    const filtered = transactions.filter((transaction) => {
-      return transaction.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-    });
-    setFilteredTransactions(filtered);
+    setSearchTerm(searchTerm);
   };
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    const description = transaction.description.toLowerCase();
+    const category = transaction.category.toLowerCase();
+    return (
+      description.includes(searchTerm.toLowerCase()) ||
+      category.includes(searchTerm.toLowerCase())
+    );
+  });
 
   return (
     <div>

@@ -10,6 +10,7 @@ function Filter({ handleFilter }) {
 
   const handleSubmit = () => {
     const trimmedValue = currentValue.trim();
+    console.log(trimmedValue);
     //setSearchTerm(trimmedValue);
     handleFilter(trimmedValue);
   };
@@ -24,7 +25,7 @@ function Filter({ handleFilter }) {
         placeholder="Search Your Recent Transaction"
         onChange={handleChange}
       />
-      <button class="btn btn-primary" onClick={handleSubmit}>
+      <button className="btn btn-primary" onClick={handleSubmit}>
         Search{" "}
       </button>
     </div>

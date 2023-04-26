@@ -62,7 +62,7 @@ function Form() {
         placeholder="Amount"
         onChange={handleChange}
       />
-      <button class="btn btn-primary" type="submit">
+      <button className="btn btn-primary" type="submit">
         Add Transaction
       </button>
     </form>
